@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Your Guests Have Already Decided - Has Your Venue Caught Up?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f1f0f0;
+    --paper: #262626;
+    --amber: #278bcb;
+    --amber-light: #278bcb;
+    --rust: #676767;
+    --cream: #1e1e1e;
+    --muted: #a0a0a0;
+    --border: #3a3a3a;
+    --dark-panel: #1a1a1a;
+    --highlight: #1e2a35;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #262626;
+    color: #f1f0f0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    background: #1a1a1a;
+    color: #f1f0f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 6vw 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 60%, rgba(156,61,30,0.15) 0%, transparent 70%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        rgba(255,255,255,0.03) 39px,
+        rgba(255,255,255,0.03) 40px
+      );
+  }
+
+  .hero-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: var(--amber);
+    margin-bottom: 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--amber);
+  }
+
+  .hero h1 {
+    color: #f1f0f0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    position: relative;
+    max-width: 820px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 1.15rem;
+    color: rgba(241,240,240,0.65);
+    max-width: 520px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  .hero-divider {
+    margin: 48px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+  }
+
+  .hero-divider span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: rgba(241,240,240,0.35);
+  }
+
+  .hero-divider::before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 60px;
+    background: rgba(241,240,240,0.2);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 6vw;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(241,240,240,0.35);
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 50px;
+    background: rgba(241,240,240,0.2);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0%, 100% { opacity: 0.2; transform: scaleY(1); }
+    50% { opacity: 0.8; transform: scaleY(1.3); }
+  }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 6vw; }
+  .container-wide { max-width: 1100px; margin: 0 auto; padding: 0 6vw; }
+
+  .chapter-break {
+    background: #1a1a1a;
+    color: #f1f0f0;
+    padding: 70px 6vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chapter-break::after {
+    content: attr(data-num);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18vw;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    right: 3vw;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .chapter-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: var(--amber);
+    margin-bottom: 16px;
+  }
+
+  .chapter-break h2 {
+    color: #f1f0f0;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .chapter-break h2 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  .prose { padding: 72px 0; }
+
+  .prose p { margin-bottom: 1.5em; color: #d8d6d6; }
+
+  .prose p:first-child::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5em;
+    font-weight: 900;
+    float: left;
+    line-height: 0.8;
+    margin: 8px 12px 0 0;
+    color: var(--amber);
+  }
+
+  .prose h3 {
+    color: #f1f0f0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin: 2.5em 0 0.8em;
+    line-height: 1.25;
+  }
+
+  .prose h3 em { font-style: italic; color: var(--rust); }
+
+  .pullquote {
+    border-left: 4px solid var(--amber);
+    padding: 24px 32px;
+    margin: 48px 0;
+    background: var(--cream);
+  }
+
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: #f1f0f0;
+    line-height: 1.5;
+    margin: 0 !important;
+  }
+
+  .pullquote p::first-letter { all: unset; }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px;
+    margin: 48px 0;
+    background: var(--border);
+  }
+
+  .stat-card {
+    background: var(--cream);
+    padding: 36px 28px;
+  }
+
+  .stat-card .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--amber);
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .stat-card .label {
+    font-size: 0.85rem;
+    color: #a0a0a0;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
+
+  .stat-card .source {
+    font-size: 0.72rem;
+    color: var(--border);
+    margin-top: 10px;
+    display: block;
+    font-style: italic;
+  }
+
+  .analogy {
+    background: var(--highlight);
+    border: 1px solid rgba(200,134,10,0.25);
+    padding: 28px 32px;
+    margin: 40px 0;
+    border-radius: 2px;
+  }
+
+  .analogy-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .analogy p {
+    font-size: 0.95rem;
+    margin-bottom: 0 !important;
+    color: #d8d6d6;
+  }
+
+  .analogy p::first-letter { all: unset; }
+
+  .insight-band {
+    background: var(--rust);
+    color: #f1f0f0;
+    padding: 64px 6vw;
+  }
+
+  .insight-band h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 5px;
+    color: rgba(241,240,240,0.5);
+    margin-bottom: 36px;
+  }
+
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+  }
+
+  .insight-item {
+    border-top: 2px solid rgba(241,240,240,0.25);
+    padding-top: 20px;
+  }
+
+  .insight-item h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .insight-item p {
+    font-size: 0.88rem;
+    color: rgba(241,240,240,0.75);
+    line-height: 1.55;
+  }
+
+  .insight-item .stat-inline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--amber-light);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .cta-section {
+    background: var(--amber);
+    color: #f1f0f0;
+    padding: 80px 6vw;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .cta-section p {
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto 36px;
+    color: rgba(241,240,240,0.75);
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: #f1f0f0;
+    padding: 16px 40px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .cta-btn:hover { background: var(--rust); }
+
+  .section-rule { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  @media (max-width: 600px) {
+    .insight-band { padding: 40px 6vw; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">Consumer Intelligence Report - Beverage Technology</div>
+  <h1>Your Guests Have <em>Already Decided.</em><br>Has Your Venue Caught Up?</h1>
+  <p class="hero-sub">The data on how the next generation of guests eats, drinks, and spends - and what it means for the venues that want to keep them coming back.</p>
+  <div class="hero-divider">
+    <span>Consumer Behavior - Experience Economy - Self-Pour</span>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+
+<!-- INTRO -->
+<div class="container">
+  <div class="prose">
+    <p>Every generation reshapes hospitality in its own image. Baby Boomers built the casual dining era. Millennials fueled the craft beer movement and the farm-to-table obsession. Now Gen Z is spending, and they are not playing by the same rules as anyone who came before them.</p>
+
+    <p>The operators who understand this shift are quietly building the most profitable venues of the next decade. The ones who don't will wonder why foot traffic feels different, why regulars are younger but spending patterns don't match expectations, and why the playbook that worked in 2018 feels like it's fighting gravity.</p>
+
+    <p>This is not a warning. It's a map.</p>
+  </div>
+</div>
+
+
+<!-- STAT GRID -->
+<div class="container-wide">
+  <div class="stat-grid">
+    <div class="stat-card">
+      <span class="num">42%</span>
+      <span class="label">of Americans report being more interested in experiential dining in 2025 compared to 2024</span>
+      <span class="source">Towards F+B, 2025</span>
+    </div>
+    <div class="stat-card">
+      <span class="num">27%</span>
+      <span class="label">year-over-year increase in bookings for special dining formats and experiential venues</span>
+      <span class="source">Towards F+B, 2025</span>
+    </div>
+    <div class="stat-card">
+      <span class="num">24.7%</span>
+      <span class="label">surge in customer acquisition costs in dining from 2022 to 2025 - making organic social reach a real financial argument</span>
+      <span class="source">PourMyBeer, 2025</span>
+    </div>
+    <div class="stat-card">
+      <span class="num">2029</span>
+      <span class="label">the year Gen Z spending is on pace to eclipse Baby Boomers' global spending entirely</span>
+      <span class="source">Market Research Future</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- CHAPTER 1 -->
+<div class="chapter-break" data-num="01">
+  <div class="chapter-num">Chapter 01</div>
+  <h2>The Experience Economy Has <em>Arrived at Your Tap</em></h2>
+</div>
+
+<div class="container">
+  <div class="prose">
+    <p>Economists Pine and Gilmore named it in 1999, but the hospitality industry is living it now. Guests don't want to consume - they want to participate. They want to be the protagonist of a moment, not a passive recipient of a poured glass.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Analogy</div>
+      <p>Think about the difference between a movie theater and a go-kart track. Both are entertainment. But one happens to you - the other you do. The fastest-growing hospitality concepts of the last decade all have that "do" quality: axe throwing, escape rooms, pickleball courts, bowling alleys with craft beer, mini golf with cocktails. Self-pour is that same energy applied to your tap line.</p>
+    </div>
+
+    <h3>The "Eatertainment" Boom Is <em>Not a Niche</em></h3>
+
+    <p>The hybrid venue is no longer a novelty - it's a category. Pickleball venues are opening with tap walls. Sports bars are adding interactive experiences. Bowling alleys that used to serve domestic lagers are now offering 40-tap walls with craft selections. This isn't happening because operators woke up and decided to be creative. It's happening because guests are demanding it with their wallets.</p>
+
+    <p>The venues growing fastest right now share one trait: they give guests something to do, something to post, and something to come back for. A tap wall - especially one where guests control their own pour - hits all three.</p>
+
+    <div class="pullquote">
+      <p>A guest who pours their own flight of four takes a photo. They share it. They come back because they remember the feeling of exploration, not just the taste of the beer.</p>
+    </div>
+
+    <h3>Personalization Is Now a Baseline Expectation</h3>
+
+    <p>Your guests live in an on-demand world. Their music adapts to their mood. Their news feed knows what they care about. Their streaming service queues up what they'll want next before they ask. Then they walk into your bar and wait seven minutes for someone to pour them a single beer they've already decided on.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Analogy</div>
+      <p>Handing a modern consumer a fixed experience with no control is like giving someone a paper map when they've had GPS for a decade. It's not that they can't use it - it's that the gap feels jarring. The friction becomes the memory. And in hospitality, a memory you don't want is worse than no memory at all.</p>
+    </div>
+
+    <p>Self-pour removes that friction. Guests explore at their own pace, try the things they're curious about, and stay longer because the experience is in their hands. In the experience economy, friction is revenue leaving your building.</p>
+  </div>
+</div>
+
+
+<!-- CHAPTER 2 -->
+<div class="chapter-break" data-num="02">
+  <div class="chapter-num">Chapter 02</div>
+  <h2>Gen Z Is Your Next Regular - <em>Do You Know What They Want?</em></h2>
+</div>
+
+<div class="container">
+  <div class="prose">
+    <p>Gen Z is not a future demographic. They are in your venue right now, and their spending is growing twice as fast as previous generations at the same age. By 2029 they are on pace to eclipse Baby Boomers' global spending. Whoever captures their loyalty in the next three years will hold it for decades.</p>
+
+    <p>Here is what the data says about them - and what it means for how you build your beverage program.</p>
+
+    <h3>They Drink Less. But They Spend More on What They Choose.</h3>
+
+    <p>Gen Z drinks 20% less alcohol than Millennials. That sounds like a threat until you understand the full picture. They aren't abstaining because they're frugal - they're being deliberate. When they do drink, they choose with intention. They want something worth the decision.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Analogy</div>
+      <p>Think of it like the premium coffee shift. A generation that grew up with Starbucks doesn't drink more coffee than their parents - they drink better coffee and pay more for it. The volume went down. The ticket went up. Craft beverage operators who understood this built thriving businesses while others chased volume they'd never recover.</p>
+    </div>
+
+    <p>This also means zero-proof has moved from a niche accommodation to a serious program requirement. Sophisticated mocktails, craft NA beers, and non-alcoholic spirits on a self-pour wall aren't a gesture toward inclusivity - they're a revenue line for your fastest-growing customer segment.</p>
+
+    <h3>The Acquisition Cost Argument You Can't Ignore</h3>
+
+    <p>Customer acquisition costs in dining surged 24.7% between 2022 and 2025. Paid advertising is more expensive. Digital competition is noisier. The venues winning on acquisition right now are doing it through organic content - and the most reliably shareable moment in a modern bar is a guest controlling their own tap wall experience.</p>
+
+    <div class="pullquote">
+      <p>A self-pour wall is infrastructure that markets itself. Every guest who films their pour and posts it is a paid media placement you didn't pay for.</p>
+    </div>
+
+    <p>When acquisition costs are rising and your best acquisition channel is a guest's social feed, the question becomes: what are you giving them worth posting about?</p>
+  </div>
+</div>
+
+
+<!-- INSIGHT BAND -->
+<div class="insight-band">
+  <div class="container-wide">
+    <h3>What the Data Is Telling You</h3>
+    <div class="insight-grid">
+      <div class="insight-item">
+        <span class="stat-inline">+42%</span>
+        <h4>Experiential Demand Is Rising</h4>
+        <p>Nearly half of American diners report stronger interest in experiential formats in 2025 than last year. This isn't a trend - it's a baseline shift in expectation.</p>
+      </div>
+      <div class="insight-item">
+        <span class="stat-inline">2x</span>
+        <h4>Gen Z Spending Velocity</h4>
+        <p>Gen Z is spending twice as fast as prior generations at the same age. The operators building for them now are setting themselves up for the next 20 years.</p>
+      </div>
+      <div class="insight-item">
+        <span class="stat-inline">-20%</span>
+        <h4>Alcohol Volume, Up-Tier Quality</h4>
+        <p>Gen Z drinks 20% less alcohol than Millennials - but spends more per occasion. A strong zero-proof program and curated tap list serve both sides of this shift.</p>
+      </div>
+      <div class="insight-item">
+        <span class="stat-inline">24.7%</span>
+        <h4>Rising Acquisition Costs</h4>
+        <p>Paid channels are getting more expensive. Self-pour creates organic, shareable moments that drive acquisition without an ad budget behind them.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- CHAPTER 3 -->
+<div class="chapter-break" data-num="03">
+  <div class="chapter-num">Chapter 03</div>
+  <h2>Self-Pour Isn't a Feature - <em>It's a Response to Everything Above</em></h2>
+</div>
+
+<div class="container">
+  <div class="prose">
+    <p>Step back and look at the full picture. Guests want participation, not passive service. The fastest-growing demographics drink with intention and post what moves them. Acquisition costs are up and organic reach is the most defensible channel left. Eatertainment is growing into a category, not a curiosity.</p>
+
+    <p>Self-pour beverage technology is not a gadget answer to a gadget moment. It is a structural response to a structural shift in who your guests are and what they've decided they want from a night out.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Analogy</div>
+      <p>When personal playlists replaced the radio DJ, it wasn't because music got worse. It was because listeners finally had a tool that matched the autonomy they already wanted. Self-pour is that tool for your tap line. The desire for control and discovery was always there. The technology just finally caught up.</p>
+    </div>
+
+    <p>The venues that are growing in this environment aren't doing something random. They're building experiences that give guests agency, variety, and a moment worth remembering. A tap wall - done right - does all three in a single installation.</p>
+
+    <p>The data is pointing. Your own experience as an operator is pointing. The only remaining question is where your venue stands when guests decide between you and the place that gave them something to talk about.</p>
+  </div>
+</div>
+
+<!-- INTERACTIVE SCREENS CHAPTER -->
+<div class="chapter-break" data-num="04">
+  <div class="chapter-num">Chapter 04</div>
+  <h2>When the Screen Becomes <em>Part of the Memory</em></h2>
+</div>
+
+<div class="container">
+  <div class="prose">
+    <p>Gen Z does not just want to participate in an experience - they want to see themselves in it. They want the venue to feel like it was built for them, not just rented to them for a night. PourTek's interactive screens, powered by a 3D gaming engine, make that possible in a way no other beverage system on the market can match.</p>
+
+    <h3>The Screen Is Not a Menu - It Is a Canvas</h3>
+
+    <p>Every PourTek installation includes screens that can be fully customized in real time for any event or occasion. A wedding reception can display the couple's photos across every unit. A graduation party can run the graduate's name and school colors as guests pour their drinks. A corporate buyout can show sponsor branding across every screen in the venue. The beverage experience and the event identity become the same thing - inseparable, intentional, and worth photographing.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Analogy</div>
+      <p>Think of the difference between a generic birthday cake from a grocery store and one made with a photo of the guest of honor on it. The cake is the same product. But one gets photographed and posted. The other gets eaten and forgotten. PourTek's screens do for your beverage station what the custom cake does for the dessert table - they make it personal, shareable, and worth remembering.</p>
+    </div>
+
+    <h3>Why Event Bookers Choose This Over the Venue Next Door</h3>
+
+    <p>Wedding coordinators, corporate event planners, and private hosts are making venue decisions based on differentiation. When two properties are comparable on space, catering, and price, the venue that offers a genuinely unique, personalized experience wins the booking. PourTek's interactive screens give your sales team a concrete, visual answer to the question every event planner eventually asks: what makes your venue different?</p>
+
+    <ul class="checklist">
+      <li>Weddings - couple's photos, names, and color palette displayed across all beverage stations throughout the event</li>
+      <li>Graduation parties - graduate's photos, school branding, and milestone messaging built into the pour experience</li>
+      <li>Birthday events - custom themes and guest photos that make the self-pour station the centerpiece of the celebration</li>
+      <li>Corporate events - sponsor logos, brand guidelines, and custom campaign visuals that turn a venue rental into a branded activation</li>
+      <li>Themed and seasonal nights - holiday visuals, sports team branding, or venue promotions that transform the atmosphere without touching the physical space</li>
+    </ul>
+
+    <div class="pullquote">
+      <p>The venues winning the next generation of event bookings are not the ones with the biggest rooms. They are the ones that make every guest feel like the experience was built specifically for them.</p>
+    </div>
+
+    <h3>The Social Proof Loop This Creates</h3>
+
+    <p>Gen Z posts what moves them. A self-pour station with a couple's wedding photos on the screen gets posted. A graduation party with the graduate's name lit up across the tap display gets posted. Every post is organic reach to a network of exactly the kind of guests your venue wants to attract - and it costs nothing beyond the installation that was already driving revenue before the first photo was taken.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Analogy</div>
+      <p>It works like a mural wall that venues started adding in the 2010s - the ones specifically designed to be photographed. Venues that added them saw organic social impressions they could not have bought with an ad budget. PourTek's interactive screens are the functional version of that mural: they look great, they get photographed, and they also pour drinks and generate revenue while they do it.</p>
+    </div>
+  </div>
+</div>
+
+
+<hr class="section-rule">
+
+<div style="background: var(--cream); border-top: 1px solid var(--border); padding: 24px 6vw; text-align: center;">
+  <p style="font-size: 0.78rem; color: #a0a0a0; font-style: italic; margin: 0;">Statistics sourced from Towards F+B 2025, PourMyBeer Industry Report 2025, and Market Research Future Gen Z Spending Analysis.</p>
+</div>
+
+<div class="cta-section">
+  <h2>Ready to See If It Fits<br>Your Venue?</h2>
+  <p>A discovery conversation costs nothing. Understanding your options before your competitors do? That's priceless.</p>
+  <a href="/cdn-cgi/l/email-protection#127376607b737c52627d67606677793c717d7f2d616770787771662f41777e743f427d6760372022517d7c61677e6673667b7d7c37202
